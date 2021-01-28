@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define WRAPLINE 4 
+#define WRAPLINE 12
 #define MAXLINE 1000
 #define MAXLENGTH 10000 
 
@@ -58,7 +58,7 @@ void mergeLines(char from[], char to[])
     i = 0;
     shift = 0;
 
-    while (to[i++] != '\0') { /* check where where is end of string to  */
+    while (to[i++] != '\0') { /* check where is end of string to  */
         ++shift; /* merge next line to end of prev */ 
     }
 
@@ -66,16 +66,41 @@ void mergeLines(char from[], char to[])
         to[i + shift] = from[i];
     }
     /* if line doesnt ended by ' ' or \t then add ' ' to separate lines */
-    if (to[i - 1 + shift] != ' ' && to[i - 1 + shift] != '\t') /* last char of to */
+    if (to[i - 1 + shift] != ' ' && to[i - 1 + shift] != '\t') 
+        /* last char of to */
         to[i + shift] = ' ';
 }
+
 void wrapLines(char str[], int maxLineLength)
 {
-    /* TO DO */
     int i;
-    for (i = 0; i <= length(str); i++) {
-        printf("%c", str[i]);
-        if ((i+1) % maxLineLength == 0)
-            printf("\n");
+    int j;
+
+    /* Wrap lines on the specified text width */
+    for (i = 0, j = 1; i <= length(str); i++, j++) {
+        if ((j % (maxLineLength)) == 0) {
+
+            if (str[i] == ' ' || str[i] == '\t') {
+                printf("\n");
+                j = 1;
+            }
+            else {
+                /* we can't wrap text in the middle of word wherefore we */ 
+                /* searching nearest ' ' or \t on the right and there wrap text */
+                while(i <= length(str)) {
+                    if (str[i] == ' ' || str[i] == '\t') {
+                        printf("\n");
+                        j = 1;
+                        break;
+                    }
+                    else {
+                        printf("%c", str[i]);
+                    }
+                    i++;
+                }    
+            }
+        }
+        else
+            printf("%c", str[i]);
     }
 }
