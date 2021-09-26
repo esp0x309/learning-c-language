@@ -11,6 +11,7 @@
 #define COMMENT 2
 #define ERROR 3
 
+
 /* program to delete comments */
 int getlines(char line[], int limit);
 int length(char str[]);
@@ -28,8 +29,14 @@ int main()
     while ((getlines(line, MAXLINE)) > 0) {  /* for every input line */
         removeComments(line, lineWithoutComments); /* delete comment */
         if (strlen(lineWithoutComments) > 0) {
+            /* TO DO */
+            /* check if the line contains only white characters */
+            /* if it a true that not print this line */
             printf("%s\n", lineWithoutComments);
         }
+        if (line[0] == '\n') { /* if the line is empty then simply print it */
+            printf("\n");
+        } 
     }
 
     return 0;
@@ -71,10 +78,13 @@ void removeComments(char from[], char to[])
     nOpen = 0;
     nClose = 0;
 
-    STATE = CODE;
+    /* TO DO */
+    /* 1. add multi line 
+       comment support 
+       like this */
 
     /* check char by char from line */
-    for (i = 0; i < length(from); i++) { /* must change this function! */
+    for (i = 0; i < length(from); i++) { 
         /* check if the comment's start */
         if (from[i] == '/' && from[i+1] == '*') {
             nOpen++;
@@ -108,7 +118,12 @@ void removeComments(char from[], char to[])
             to[i] = from[j++];
         }
     }
-    to[j] = '\0';
+    if (STATE == CODE) {
+        to[j] = '\0';
+    }
+    else if (STATE == COMMENT) {
+       /* nie wyswietlaj tej linii */ 
+    }
 
 }
 
