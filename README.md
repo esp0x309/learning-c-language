@@ -1,10 +1,10 @@
 # learning-c-language
 Learning C
 
-remove_comments - remove ansi style comments from source code
+<b>remove_comments</b> - remove ansi style comments from source code
 
-Example of compilation:
+<b>Example of compilation:</b>
 gcc -ansi remove_comments.c -o remove_comments
 
-example usage:
+<b>example usage:</b>
 ./remove_comments < remove_comments.c
