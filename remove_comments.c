@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <ctype.h> /* isPrint() */
+#include <ctype.h> /* isPrint(), isSpace()  */
 #include <stdbool.h> 
 #include <string.h>
 
@@ -19,6 +19,7 @@ void removeComments(char from[], char to[]);
 
 /* global variables */
 int STATE = CODE;
+int isOnlyWhiteSpace = 0;
 
 /* main function */
 int main()
@@ -29,10 +30,23 @@ int main()
     while ((getlines(line, MAXLINE)) > 0) {  /* for every input line */
         removeComments(line, lineWithoutComments); /* delete comment */
         if (strlen(lineWithoutComments) > 0) {
-            /* TO DO */
-            /* check if the line contains only white characters */
-            /* if it a true that not print this line */
-            printf("%s\n", lineWithoutComments);
+
+            /* don't show line with only whitespaces characters */ 
+            /* after deleted ansi c styly comment */
+            int i;
+            for (i = 0; i < strlen(lineWithoutComments); i++) {
+                if (!isspace(lineWithoutComments[i])) {
+                    isOnlyWhiteSpace = 1;
+                    break;
+                }
+                else {
+                    isOnlyWhiteSpace = 0;
+                }
+            }
+            /* if we have printable characters in line then show that line */
+            if (isOnlyWhiteSpace == 1) {
+                printf("%s\n", lineWithoutComments);
+            }
         }
         if (line[0] == '\n') { /* if the line is empty then simply print it */
             printf("\n");
@@ -121,9 +135,5 @@ void removeComments(char from[], char to[])
     if (STATE == CODE) {
         to[j] = '\0';
     }
-    else if (STATE == COMMENT) {
-       /* nie wyswietlaj tej linii */ 
-    }
-
 }
 
